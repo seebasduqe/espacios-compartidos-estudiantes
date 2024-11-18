@@ -16,9 +16,10 @@ class Database {
         //se crea un pool de conexiones a la base de datos usando mysql.createPool()
         this.pool = mysql.createPool({
             host: 'localhost',
-            user: process.env.MYSQL_USER,
-            password: process.env.MYSQL_PASSWORD,
-            database: process.env.MYSQL_DATABASE,
+            port:3306,
+            user: 'user_estudiante', //process.env.MYSQL_USER,
+            password: 'password',//process.env.MYSQL_PASSWORD,
+            database: 'espacios-compartidos_bd', //process.env.MYSQL_DATABASE,
             waitForConnections: true,
             connectionLimit: 10,
             queueLimit: 0,

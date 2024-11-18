@@ -42,6 +42,10 @@ export default function Dashboard() {
 
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
 
+      <div className="flex justify-center">
+          <Image src="/images/logo.png" width={800} height={10} />
+        </div>
+
         <div className="flex gap-9 items-center flex-col sm:flex-row">
           <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {areasComunes.map((area_comun) => (

@@ -8,8 +8,10 @@ export async function POST(request) {
         const { username, nombre, apellido1, apellido2, email, password, direccion, telefono } = await request.json();
         
         const query = `
-            INSERT INTO users (username, nombre, apellido1, apellido2, email, password, direccion, telefono)
+            INSERT INTO users (username, nombre, apellido1, apellido2, email, password,direccion, telefono)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+
+            console.log(query);
 
         // Ejecuta la inserción
         await db.fetchData(query, [username, nombre, apellido1, apellido2, email, password, direccion, telefono]);

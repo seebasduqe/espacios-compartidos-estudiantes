@@ -1,22 +1,24 @@
 "use client";
-import Image from "next/image"
-import Link from 'next/link'
-import { MapPinIcon, ArrowRightIcon } from '@heroicons/react/24/solid'
-import { useAuth } from "./AuthContext"
+import Image from "next/image";
+import Link from "next/link";
+import { MapPinIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
+import { useAuth } from "./AuthContext";
 
 export default function Home() {
-
   const { isAuthenticated } = useAuth();
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      
       <h1 className="text-6xl font-bold text-white">
         Grupo Espacios Compartidos
       </h1>
 
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-      
+
+        <div className="flex justify-center">
+          <Image src="/images/logo.png" width={800} height={10} />
+        </div>
+
         <div className="flex gap-9 items-center flex-col sm:flex-row">
           <Link href={isAuthenticated ? "/dashboard" : "/login"}>
             <span
@@ -50,10 +52,9 @@ export default function Home() {
               Registrarse
             </span>
           </Link>
-          
         </div>
       </main>
-      
+
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <span
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
