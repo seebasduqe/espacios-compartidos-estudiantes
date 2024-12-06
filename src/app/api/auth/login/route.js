@@ -12,8 +12,8 @@ export async function POST(request) {
   try {
     const results = await db.fetchData(query, [email, password]);
 
-    const idUser = results[0].id;
-    
+    const idUser = results[0].id ? results[0].id : 0;
+
     if (results.length > 0) {
       // Si las credenciales son válidas
       const token = sign(
@@ -37,8 +37,21 @@ export async function POST(request) {
         path: "/",
       });
 
+
+      // Log de éxito
+      const logQuerySuccess = `
+        INSERT INTO logs (tipo, accion, descripcion, estado, user_id, fecha)
+        VALUES (3, 'login', 'Usuario ${email} ha iniciado sesión correctamente', 1, ?, NOW())`;
+      await db.fetchData(logQuerySuccess, [idUser]);
+
       return response;
     } else {
+      // Log de error si las credenciales no coinciden
+      const logQueryError = `
+        INSERT INTO logs (tipo, accion, descripcion, estado, user_id, fecha)
+        VALUES (3, 'login', 'Intento fallido de login con el username: ${email}', 0, NULL, NOW())`;
+
+      await db.fetchData(logQueryError);
       // Si no hay coincidencias en la base de datos
       return NextResponse.json(
         {
@@ -51,6 +64,11 @@ export async function POST(request) {
     }
   } catch (error) {
     console.error('Database query error:', error);
+    // Log de error si hay problemas en la consulta
+    const logQueryError = `
+     INSERT INTO logs (tipo, accion, descripcion, estado, user_id, fecha)
+     VALUES (3, 'login', 'Error al intentar iniciar sesión', 0, NULL, NOW())`;
+    await db.fetchData(logQueryError);
     return NextResponse.json(
       {
         message: "Error verifying credentials",

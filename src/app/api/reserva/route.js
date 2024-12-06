@@ -25,6 +25,12 @@ export async function POST(request) {
         const disponibilidad = await areaComun.checkDisponibilidad(fecha_inicio, fecha_final);
         console.log(disponibilidad);
         if (disponibilidad) {
+            // Log de error
+            const logQueryError = `
+        INSERT INTO logs (tipo, accion, descripcion, estado, user_id, fecha)
+        VALUES (2, 'crear', 'El área común ya tiene reservas en esta fecha.', 0, ?, NOW())
+        `;
+            await db.fetchData(logQueryError, [iduser]);
             return NextResponse.json({ error: 'El área común ya tiene reservas en esta fecha.' }, { status: 400 });
         }
 
@@ -50,10 +56,23 @@ export async function POST(request) {
 
         const result = await db.fetchData(selectQuery);
 
+
+        const logQuery = `
+            INSERT INTO logs (tipo, accion, descripcion, estado, user_id, fecha)
+            VALUES (2, 'crear', 'Se creó la reserva para el área común id: ${idarea_comun} por el usuario ${iduser}', 1, ?, NOW())
+        `;
+        await db.fetchData(logQuery, [iduser]);
+
         // Devuelve la reserva creada como respuesta
         return NextResponse.json(result[0], { status: 201 });
     } catch (error) {
         console.error('Error:', error);
+        // Log de error
+        const logQueryError = `
+         INSERT INTO logs (tipo, accion, descripcion, estado, user_id, fecha)
+         VALUES (2, 'crear', 'Error al crear la reserva: ${error.message}', 0, ?, NOW())
+     `;
+        await db.fetchData(logQueryError, [iduser]);
         return NextResponse.json({ error: 'Error al insertar datos' }, { status: 500 });
     }
 }

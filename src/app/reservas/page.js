@@ -42,7 +42,8 @@ export default function Dashboard() {
       </h1>
 
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <div className="flex justify-center">
+        
+      <div className="flex justify-center">
           <Image src="/images/logo.png" width={800} height={10} />
         </div>
 
