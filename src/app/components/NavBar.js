@@ -75,7 +75,7 @@ export default function Navbar() {
               >
                 <MenuItem>
                   <button href="#" className="block px-4 py-2 text-sm text-white data-[focus]:bg-gray-500">
-                    Tus Reservas
+                    Tus Espacios
                   </button>
                 </MenuItem>
                 <MenuItem>

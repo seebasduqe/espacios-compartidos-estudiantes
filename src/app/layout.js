@@ -15,8 +15,8 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Gestion Espacios",
-  description: "App web Gestion Espacios",
+  title: "DesingSpace",
+  description: "App web DesingSpace",
 };
 
 export default function RootLayout({ children }) {

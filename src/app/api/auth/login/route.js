@@ -1,6 +1,5 @@
 import { sign } from "jsonwebtoken";
 import { NextResponse } from "next/server";
-import Database from "../../lib/singlenton_db";
 
 export async function POST(request) {
   const { email, password } = await request.json();
@@ -37,31 +36,8 @@ export async function POST(request) {
         path: "/",
       });
 
-
-      // Log de éxito
-      const logQuerySuccess = `
-        INSERT INTO logs (tipo, accion, descripcion, estado, user_id, fecha)
-        VALUES (3, 'login', 'Usuario ${email} ha iniciado sesión correctamente', 1, ?, NOW())`;
-      await db.fetchData(logQuerySuccess, [idUser]);
-
       return response;
-    } else {
-      // Log de error si las credenciales no coinciden
-      const logQueryError = `
-        INSERT INTO logs (tipo, accion, descripcion, estado, user_id, fecha)
-        VALUES (3, 'login', 'Intento fallido de login con el username: ${email}', 0, NULL, NOW())`;
-
-      await db.fetchData(logQueryError);
-      // Si no hay coincidencias en la base de datos
-      return NextResponse.json(
-        {
-          message: "Invalid credentials",
-        },
-        {
-          status: 401,
-        }
-      );
-    }
+    } 
   } catch (error) {
     console.error('Database query error:', error);
     // Log de error si hay problemas en la consulta
